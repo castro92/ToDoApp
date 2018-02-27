@@ -178,6 +178,8 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TasksService.cs" />
+    <Compile Include="Utils\TaskConverter.cs" />
+    <Compile Include="ViewModels\TaskViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
@@ -221,6 +223,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,6 +1,8 @@
 ﻿using DominikToDo.DataAccess;
 using DominikToDo.Models;
 using DominikToDo.Services;
+using DominikToDo.Utils;
+using DominikToDo.ViewModels;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -43,11 +45,13 @@ namespace DominikToDo.Controllers
 
         // POST: Task/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(TaskViewModel model)
         {
             try
             {
                 // TODO: Add insert logic here
+                var task = model.ToModel();
+                tasksService.Add(task);
 
                 return RedirectToAction("Index");
             }
