@@ -18,5 +18,16 @@ namespace DominikToDo.Utils
                 IsDone = model.IsDone
             };
         }
+
+        public static TaskViewModel ToViewModel(this Task model)
+        {
+            return new TaskViewModel()
+            {
+                Id = model.Id,
+                Content = model.Content,
+                Date = model.Date,
+                IsDone = model.IsDone
+            };
+        }
     }
 }

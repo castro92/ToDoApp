@@ -61,10 +61,27 @@ namespace DominikToDo.Controllers
             }
         }
 
+        // 
+        public ActionResult MarkTaskAsDone(int id)
+        {
+            var task = tasksService.Get(id);
+
+            if (task.IsDone == false)
+                task.IsDone = true;
+            else
+                task.IsDone = false;
+
+            tasksService.Add(task);
+
+            return RedirectToAction("Index");
+        }
+
+
         // GET: Task/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var task = tasksService.Get(id);
+            return View(task.ToViewModel());
         }
 
         // POST: Task/Edit/5
@@ -74,6 +91,16 @@ namespace DominikToDo.Controllers
             try
             {
                 // TODO: Add update logic here
+                var task = tasksService.Get(id);
+
+                task.Content = collection["Content"];
+                task.Date = Convert.ToDateTime(collection["Date"]);
+                if (collection["IsDone"].Equals("false"))
+                    task.IsDone = false;
+                else
+                    task.IsDone = true;
+
+                tasksService.Add(task);
 
                 return RedirectToAction("Index");
             }
@@ -86,7 +113,18 @@ namespace DominikToDo.Controllers
         // GET: Task/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                // TODO: Add insert logic here
+                var task = tasksService.Get(id);
+                tasksService.Delete(task);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // POST: Task/Delete/5

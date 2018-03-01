@@ -33,6 +33,7 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsDone)
+            @Html.ActionLink("Done", "MarkTaskAsDone", new { id = item.Id })
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
