@@ -62,6 +62,39 @@ namespace DominikToDo.DataAccess
             return tasks;
         }
 
+        public IEnumerable<Task> GetAllByText(string text)
+        {
+            var tasks = _session
+                .QueryOver<Task>()
+                .WhereRestrictionOn(x => x.Content).IsLike("%"+text+"%")
+                .List<Task>();
+
+            return tasks;
+        }
+
+        public IEnumerable<Task> GetAllByStatus(string text)
+        {
+            if(text == "done")
+            {
+                var tasks = _session
+                .QueryOver<Task>()
+                .Where(x => x.IsDone == true)
+                .List<Task>();
+
+                return tasks;
+            }
+            else
+            {
+                var tasks = _session
+                .QueryOver<Task>()
+                .Where(x => x.IsDone == false)
+                .List<Task>();
+
+                return tasks;
+            }
+            
+        }
+
 
 
     }

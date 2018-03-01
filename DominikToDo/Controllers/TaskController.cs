@@ -1,15 +1,9 @@
-﻿using DominikToDo.DataAccess;
-using DominikToDo.Models;
+﻿using System;
+using System.Web.Mvc;
+using DominikToDo.DataAccess;
 using DominikToDo.Services;
 using DominikToDo.Utils;
 using DominikToDo.ViewModels;
-using NHibernate;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace DominikToDo.Controllers
 {
@@ -24,8 +18,39 @@ namespace DominikToDo.Controllers
         }
 
         // GET: Task
-        public ActionResult Index()
+        public ActionResult Index(DateTime? id)
         {
+            if (id.HasValue)
+            {
+                var tasksByDate = tasksService.GetAllBy(id.Value);
+                return View(tasksByDate);
+            }
+            else if(Request.Form["date"] != null)
+            {
+                try
+                {
+                    var tasksByDate = tasksService.GetAllBy(Convert.ToDateTime(Request.Form["date"]));
+                    return View(tasksByDate);
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+                
+            }
+            else if(Request.Form["Content"] != null)
+            {
+                try
+                {
+                    var tasksByText = tasksService.GetAllByText(Convert.ToString(Request.Form["Content"]));
+                    return View(tasksByText);
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
             var tasks = tasksService.GetAll();
             return View(tasks);
 
@@ -33,6 +58,18 @@ namespace DominikToDo.Controllers
 
         // GET: Task/Details/5
         public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: Task/Search
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        // GET: Task/SearchByText
+        public ActionResult SearchByText()
         {
             return View();
         }
@@ -78,10 +115,18 @@ namespace DominikToDo.Controllers
 
 
         // GET: Task/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id = 0)
         {
-            var task = tasksService.Get(id);
-            return View(task.ToViewModel());
+            if(id == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var task = tasksService.Get(id);
+                return View(task.ToViewModel());
+            }
+                
         }
 
         // POST: Task/Edit/5
@@ -111,14 +156,17 @@ namespace DominikToDo.Controllers
         }
 
         // GET: Task/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             try
             {
                 // TODO: Add insert logic here
-                var task = tasksService.Get(id);
-                tasksService.Delete(task);
-
+                if(id.HasValue)
+                {
+                    var task = tasksService.Get(id.Value);
+                    tasksService.Delete(task);
+                }
+                
                 return RedirectToAction("Index");
             }
             catch

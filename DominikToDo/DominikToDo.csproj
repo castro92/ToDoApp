@@ -225,6 +225,8 @@
     <Content Include="Views\Task\Index.cshtml" />
     <Content Include="Views\Task\Create.cshtml" />
     <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Task\Search.cshtml" />
+    <Content Include="Views\Task\SearchByText.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />

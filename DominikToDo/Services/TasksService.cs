@@ -72,5 +72,23 @@ namespace DominikToDo.Services
             }
         }
 
+        public IEnumerable<Task> GetAllByText(string text)
+        {
+            using (var session = _nhSessionDb.Read())
+            {
+                var _taskRepository = new TaskRepository(session);
+                return _taskRepository.GetAllByText(text);
+            }
+        }
+
+        public IEnumerable<Task> GetAllByStatus(string text)
+        {
+            using (var session = _nhSessionDb.Read())
+            {
+                var _taskRepository = new TaskRepository(session);
+                return _taskRepository.GetAllByStatus(text);
+            }
+        }
+
     }
 }
